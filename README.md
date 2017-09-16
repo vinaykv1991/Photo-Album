@@ -8,3 +8,6 @@ Currently features supported are following
 Work pending
 1. Create thumbnail and store. use thumbnail in album view
 2. In photo view limit the size of the photo which can be displayed.
+
+
+To use this install node and run index.js in back folder.
