@@ -1,0 +1,25 @@
+<div class="container">
+    
+    <div class="alert alert-danger" ng-show="photo_array_load_error_message">
+        {{photo_array_load_error_message}}
+    </div>
+    
+    <div ng-show="!photo_array_load_error_message">
+        <div ng-show="photosExists" ng-repeat="photo in photos" class="photo thumbnail">
+            <a href="#/albumview/{{album_shortname}}/{{photo.filename}}">
+                <img src="media/{{album_shortname}}/thumb/{{photo.filename}}" alt="{{photo.description}}">
+            </a>
+            <p>
+                {{photo.description}}
+            </p>
+        </div>
+        <div ng-show="!photosExists">
+            <p class="alert alert-info">
+                No Photos in this album. You can add photos using the upload button below.
+            </p>
+        </div>
+        <a href="#/albumview/{{album_shortname}}/upload">
+            <button class="btn btn-success">Upload photos to this album</button>
+        </a>
+    </div>
+</div>

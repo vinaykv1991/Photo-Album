@@ -1,0 +1,35 @@
+<html ng-app="myApp">
+    <head>
+        <title>Family Album</title>
+        
+        
+        <script type="text/javascript" src="angular/angular.min.js"></script>
+        <script type="text/javascript" src="angular/angular-route.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+        <script type="text/javascript" src="js/angular-file-upload.js"></script>
+        <script type="text/javascript" src="js/routes.js"></script>
+        <script type="text/javascript" src="js/controller.js"></script>
+        <script type="text/javascript" src="js/services.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+        
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.css"/>
+        <link rel="stylesheet" href="css/main.css"/>
+        
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">
+                            <img src="images/familyimageicon.jpg" alt="Family icon">
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div ng-view>
+            
+        </div>
+    </body>
+</html>

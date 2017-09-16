@@ -1,0 +1,79 @@
+.navbar-brand img{
+    height: 100%;
+}
+
+.formElement{
+    padding: 10px;
+}
+
+#albumDate{
+    float: right;
+}
+
+#albumPanel{
+    width: 350px;
+    min-height: 200px;
+    float: left;
+    margin: 5px;
+}
+
+#albumSearchBox{
+    border-radius: 5px;
+    border: 1px solid #bbb;
+    padding: 5px;
+}
+
+#clearLeft{
+    clear: left;
+}
+
+.panel-body textarea{
+    width: 100%;
+    margin: 2px;
+}
+
+.panel-body input{
+    width: 100%;
+    margin: 2px;
+}
+
+.panel-body button{
+    margin: 2px;
+}
+
+a{
+    color: white
+}
+
+.photoupload{
+    border-radius: 4px;
+    float: left;
+    border: 1px solid #bbb;
+    height: 200px;
+    width: 300px;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.photouploadname{
+    overflow: hidden; 
+    white-space: nowrap;
+}
+
+#photouploaddesc{
+    width: 100%; 
+    border: 1px solid #ddd;
+}
+
+#photouploadsuccess{
+    text: center; 
+    margin: 20px 0;
+}
+
+.my-drop-zone {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: dotted 3px lightgray;
+}

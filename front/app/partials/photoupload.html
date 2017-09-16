@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="alert alert-danger" ng-show="album_load_error_message">
+        {{album_load_error_message}}
+    </div>
+    <div ng-if="uploader" ng-show="!album_load_error_message">
+        <h3>Select files to upload</h3>
+        <input type="file" nv-file-select multiple uploader="uploader"/>
+        <div ng-show="uploader.isHTML5">
+            <div class="well my-drop-zone" nv-file-over="" uploader="uploader">
+                Base drop zone
+            </div>
+        </div>
+        <div class="container photoupload" ng-repeat="item in uploader.queue">
+            <div class="photouploadname">
+              <strong>
+                  Name:
+                </strong> 
+                {{ item.file.name }}
+            </div>
+            <div>
+                <strong>
+                    Size:
+                </strong> 
+                {{ item.file.size/1024/1024|number:2 }} Mb
+            </div>
+            <div>
+                <strong>
+                    Description:
+                </strong> 
+                <br/>
+                <input id="photouploaddesc" type="text" ng-model="descriptions[item.file.name]"/>
+            </div>
+
+            <p ng-show="uploader.isHTML5">
+                Upload Progress: {{ item.progress }}
+                <div class="item-progress-box">
+                  <div class="item-progress" ng-style="{ 'width': item.progress + '%' }"></div>
+                </div>
+            </p>
+
+            <div>
+                <button class="btn btn-primary" ng-click="item.remove()">Remove</button>
+            </div>
+        </div>
+
+        <div id="clearLeft"></div>
+
+        <div ng-show="uploader.queue.length > 0">
+          <div>
+            Total progress: {{ uploader.progress }}
+            <div class="total-progress-box">
+              <div class="total-progress" ng-style="{ 'width': uploader.progress + '%' }"></div>
+            </div>
+          </div>
+          <button class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">Upload all</button>
+          <button class="btn btn-warning" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">Cancel all</button>
+          <button class="btn btn-danger" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">Remove all</button>
+        </div>
+        <div>
+          <a ng-show="done_uploading" href="#/albumview/{{album_shortname}}">
+            <button type="button" class="btn btn-success">Go back to album</button>
+          </a>
+        </div>
+    </div>
+</div>
