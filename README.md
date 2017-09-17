@@ -10,4 +10,9 @@ Work pending
 2. In photo view limit the size of the photo which can be displayed.
 
 
-To use this install node and run index.js in back folder.
+To use this 
+1. Install node
+2. Download both back and front folder of the projects
+3. Navigate to back folder and run "npm update"
+4. On successful npm update, run "node index.js"
+5. You can see that server is running and you can open "localhost:8082" in any browser.
