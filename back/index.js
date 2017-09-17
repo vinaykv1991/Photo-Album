@@ -3,6 +3,7 @@
 var express = require('express'),
     async = require("async"),
     fs = require('fs'),
+    Jimp = require("jimp"),
     path = require('path');
 
 var _port = 8082;
@@ -347,28 +348,24 @@ function mkdirs_for_album (album_name, callback) {
     );
 }
 
-
-/**
- * UNDONE: make thumbnails!!!
- */
 function copy_file_to_destinations (uploadfn, album_name, destfn, callback) {
     var np1 = __dirname + "/../front/app/media/" + album_name + "/thumb/" + destfn;
     var np2 = __dirname + "/../front/app/media/" + album_name + "/full/" + destfn;
     
-    copy_file(uploadfn, np1, function (err, results) {
+    copy_file(uploadfn, np2, function (err, results) {
         if (err) {
             console.error("copy file error:");
             console.error(err);
             return callback(err);
         }
-        copy_file(uploadfn, np2, function (err) {
-            if (err) {
-                console.error("copy file error:");
-                console.error(err);
-                fs.unlink(np1);
+        Jimp.read(uploadfn, function (err, image) {
+            if (err) 
+            {
                 return callback(err);
             }
-
+            image.resize(600,Jimp.AUTO)
+                 .quality(60)
+                 .write(np1);
             return callback(null);
         });
     });

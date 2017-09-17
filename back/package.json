@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "async": "0.2.x",
-        "express": "3.x"
+        "express": "3.x",
+        "jimp": "0.2.28"
     }
 }
