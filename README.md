@@ -4,10 +4,11 @@ Goal of this application is to have a own album created for personal photo stora
 Currently features supported are following
 1. Creating Albums
 2. Uploading photos into the albums with description
+    a. Creates thumbnail to use in album view
 
 Work pending
-1. Create thumbnail and store. use thumbnail in album view
-2. In photo view limit the size of the photo which can be displayed.
+1. In photo view limit the size of the photo which can be displayed.
+2. Improve the album view
 
 
 To use this 
