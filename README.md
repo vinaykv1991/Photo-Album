@@ -9,6 +9,7 @@ Currently features supported are following
 Work pending
 1. In photo view limit the size of the photo which can be displayed.
 2. Improve the album view
+3. Use different storage for storing photos.
 
 
 To use this 
