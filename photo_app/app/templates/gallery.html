@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Photo Gallery</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        h1 { text-align: center; color: #333; }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Space between images */
+            justify-content: center; /* Center images in the container */
+        }
+        .gallery img {
+            max-width: 200px; /* Limit image width */
+            max-height: 200px; /* Limit image height */
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            background-color: #fff;
+        }
+        .no-photos { text-align: center; font-size: 1.2em; color: #666; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .nav-links { text-align: center; margin-bottom: 20px; }
+        .nav-links a { margin: 0 10px; }
+    </style>
+</head>
+<body>
+    <div class="nav-links">
+        <a href="{{ url_for('upload_file') }}">Upload Photo</a> |
+        <a href="{{ url_for('list_albums') }}">View Albums</a> |
+        <a href="{{ url_for('add_category') }}">Manage Categories</a> |
+        <a href="{{ url_for('add_album') }}">Create/Manage Albums</a>
+    </div>
+
+    <h1>Photo Gallery</h1>
+
+    <div class="category-filters" style="margin-bottom: 20px; text-align: center;">
+        <a href="{{ url_for('gallery') }}" style="margin-right: 10px;">All Photos</a>
+        {% for cat in all_categories %}
+            <a href="{{ url_for('gallery', category_id=cat.id) }}" style="margin-right: 10px;">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+
+    {% if current_category_name %}
+        <h2>Showing photos in category: {{ current_category_name }}</h2>
+    {% elif request.args.get('category_id') %}
+        <h2>No photos found for this category.</h2>
+    {% endif %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-messages">
+        {% for category, message in messages %}
+          <li class="flash-{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% if photos %}
+        <div class="gallery">
+            {% for photo in photos %}
+                <img src="{{ url_for('serve_uploaded_file', filename=photo.filename) }}" alt="Photo: {{ photo.filename }}">
+            {% endfor %}
+        </div>
+    {% else %}
+        {% if not current_category_name and not request.args.get('category_id') %}
+             <p class="no-photos">No photos uploaded yet. <a href="{{ url_for('upload_file') }}">Upload one!</a></p>
+        {% elif not photos and current_category_name %}
+            <p class="no-photos">No photos found in category: {{ current_category_name }}.</p>
+        {% elif not photos and request.args.get('category_id') and not current_category_name %}
+            <!-- This case handles if a category_id was passed but no category was found (already flashed an error from route) -->
+             <p class="no-photos">No photos to display.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Upload New Photo</title>
+</head>
+<body>
+    <h1>Upload New Photo</h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <div class="nav-links" style="text-align: center; margin-bottom: 20px;">
+        <a href="{{ url_for('gallery') }}">View Gallery</a> |
+        <a href="{{ url_for('list_albums') }}">View Albums</a> |
+        <a href="{{ url_for('add_category') }}">Manage Categories</a> |
+        <a href="{{ url_for('add_album') }}">Create/Manage Albums</a>
+    </div>
+    <form method="POST" enctype="multipart/form-data" action="{{ url_for('upload_file') }}">
+        <div>
+            <label for="file">Choose photo:</label>
+            <input type="file" id="file" name="file" required>
+        </div>
+
+        <fieldset style="margin-top: 15px; margin-bottom: 15px; padding: 10px; border: 1px solid #ccc;">
+            <legend>Assign Categories:</legend>
+            {% if categories %}
+                {% for category in categories %}
+                <div>
+                    <input type="checkbox" id="category_{{ category.id }}" name="categories" value="{{ category.id }}">
+                    <label for="category_{{ category.id }}">{{ category.name }}</label>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No categories created yet. <a href="{{ url_for('add_category') }}">Add some!</a></p>
+            {% endif %}
+        </fieldset>
+
+        <input type="submit" value="Upload Photo">
+    </form>
+</body>
+</html>
