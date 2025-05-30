@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Albums</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        h1 { color: #333; text-align: center; }
+        ul { list-style-type: none; padding: 0; }
+        li.album-entry { 
+            background-color: #fff; 
+            border: 1px solid #ddd; 
+            margin-bottom: 15px; 
+            padding: 15px; 
+            border-radius: 5px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        li.album-entry h2 { margin-top: 0; margin-bottom: 5px; }
+        li.album-entry h2 a { text-decoration: none; color: #007bff; }
+        li.album-entry h2 a:hover { text-decoration: underline; }
+        li.album-entry p { margin-top: 0; margin-bottom: 8px; color: #555; }
+        li.album-entry small { color: #777; }
+        .no-albums { text-align: center; font-size: 1.1em; color: #666; margin-top: 20px; }
+        .action-links { text-align: center; margin-top: 25px; margin-bottom: 20px; }
+        .action-links a, .nav-links a { margin: 0 10px; color: #007bff; text-decoration: none; padding: 8px 12px; background-color: #e9ecef; border-radius:4px; }
+        .action-links a:hover, .nav-links a:hover { background-color: #007bff; color:white; text-decoration: none;}
+        .nav-links { text-align: center; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="nav-links">
+        <a href="{{ url_for('gallery') }}">Gallery</a> |
+        <a href="{{ url_for('upload_file') }}">Upload Photo</a> |
+        <a href="{{ url_for('add_category') }}">Manage Categories</a> |
+        <a href="{{ url_for('add_album') }}">Create/Manage Albums</a>
+    </div>
+
+    <h1>Albums</h1>
+
+    {% if albums %}
+        <ul>
+        {% for album in albums %}
+            <li class="album-entry">
+                <h2><a href="{{ url_for('view_album', album_id=album.id) }}">{{ album.name }}</a></h2>
+                {% if album.description %}<p>{{ album.description }}</p>{% endif %}
+                <small>Created: {{ album.created_at.strftime('%Y-%m-%d %H:%M') }}</small><br>
+                <small>{{ album.photos.count() }} photo(s)</small>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-albums">No albums created yet.</p>
+    {% endif %}
+
+    <div class="action-links">
+        <a href="{{ url_for('add_album') }}">Create New Album</a>
+    </div>
+
+</body>
+</html>

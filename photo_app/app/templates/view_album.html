@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Album: {{ album.name }}</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        h1, h2 { color: #333; }
+        .album-header { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ccc; }
+        .album-header h1 { margin-bottom: 5px; }
+        .album-header p { color: #555; font-size: 1.1em; }
+        .photo-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px; /* Space between images */
+            justify-content: flex-start; /* Align images to the start */
+        }
+        .photo-item {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #fff;
+            text-align: center;
+            width: 200px; /* Fixed width for items */
+        }
+        .photo-item img {
+            max-width: 100%;
+            height: 150px; /* Fixed height for images */
+            object-fit: cover; /* To maintain aspect ratio */
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+        .photo-item .filename { font-size: 0.9em; color: #666; }
+        .no-photos { text-align: center; font-size: 1.1em; color: #666; margin-top: 20px; }
+        .action-links { text-align: left; margin-top: 25px; margin-bottom: 20px; }
+        .action-links a, .nav-links a { margin-right: 10px; color: #007bff; text-decoration: none; padding: 8px 12px; background-color: #e9ecef; border-radius:4px; }
+        .action-links a:hover, .nav-links a:hover { background-color: #007bff; color:white; text-decoration: none;}
+        .nav-links { text-align: center; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="nav-links">
+        <a href="{{ url_for('list_albums') }}">All Albums</a> |
+        <a href="{{ url_for('gallery') }}">Main Gallery</a> |
+        <a href="{{ url_for('upload_file') }}">Upload Photo</a>
+    </div>
+
+    <div class="album-header">
+        <h1>{{ album.name }}</h1>
+        {% if album.description %}<p>{{ album.description }}</p>{% endif %}
+        <small>Created: {{ album.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+    </div>
+
+    {% if photos %}
+        <h2>Photos in this Album</h2>
+        <div class="photo-gallery">
+            {% for photo in photos %}
+                <div class="photo-item">
+                    <img src="{{ url_for('serve_uploaded_file', filename=photo.filename) }}" alt="Photo: {{ photo.filename }}">
+                    <div class="filename">{{ photo.filename }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-photos">This album has no photos yet.</p>
+    {% endif %}
+
+    <div class="action-links">
+        <a href="{{ url_for('manage_album_contents', album_id=album.id) }}">Manage Photos in this Album</a>
+        <a href="{{ url_for('list_albums') }}">Back to Albums List</a>
+    </div>
+
+</body>
+</html>

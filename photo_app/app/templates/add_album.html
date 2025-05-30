@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create New Album</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        h1, h2 { color: #333; }
+        form { margin-bottom: 20px; background-color: #fff; padding: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], textarea {
+            width: calc(100% - 22px); /* Adjust for padding and border */
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* So padding doesn't add to width */
+        }
+        textarea { min-height: 80px; resize: vertical; }
+        input[type="submit"] { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        input[type="submit"]:hover { background-color: #0056b3; }
+        ul { list-style-type: none; padding: 0; }
+        li.album-item { background-color: #fff; border: 1px solid #ddd; margin-bottom: 8px; padding: 10px; border-radius: 4px; }
+        li.album-item strong { font-size: 1.1em; }
+        li.album-item p { margin-top: 5px; color: #555; }
+        .flash-messages li { margin-bottom: 10px; padding: 10px; border-radius: 4px; }
+        .flash-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .flash-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .nav-links { text-align: center; margin-bottom: 20px; }
+        .nav-links a { margin: 0 10px; color: #007bff; text-decoration: none; }
+        .nav-links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="nav-links">
+        <a href="{{ url_for('upload_file') }}">Upload Photo</a> |
+        <a href="{{ url_for('gallery') }}">View Gallery</a> |
+        <a href="{{ url_for('add_category') }}">Manage Categories</a>
+    </div>
+
+    <h1>Create New Album</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-messages">
+        {% for category, message in messages %}
+          <li class="flash-{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('add_album') }}">
+        <div>
+            <label for="album_name">Album Name:</label>
+            <input type="text" id="album_name" name="album_name" required>
+        </div>
+        <div>
+            <label for="album_description">Album Description:</label>
+            <textarea id="album_description" name="album_description"></textarea>
+        </div>
+        <input type="submit" value="Create Album">
+    </form>
+
+    <h2>Existing Albums</h2>
+    {% if albums %}
+        <ul>
+        {% for album in albums %}
+            <li class="album-item">
+                <strong>{{ album.name }}</strong>
+                {% if album.description %}<p>{{ album.description }}</p>{% endif %}
+                <small>Created: {{ album.created_at.strftime('%Y-%m-%d %H:%M') }}</small><br>
+                <a href="{{ url_for('manage_album_contents', album_id=album.id) }}" style="font-size: 0.9em;">Manage Photos</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No albums created yet.</p>
+    {% endif %}
+
+</body>
+</html>
